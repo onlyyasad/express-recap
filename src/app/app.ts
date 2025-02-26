@@ -17,15 +17,56 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
 //Router
 
 const userRouter = express.Router();
+const productRouter = express.Router();
 
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/products/', productRouter);
 
-userRouter.get('/create-user', (req: Request, res: Response)=>{
+userRouter.post('/create-user', (req: Request, res: Response)=>{
   const user = req.body;
   res.json({
     success: true,
     message: "User created successfully",
     data: user
+  })
+});
+
+productRouter.get('/all', (req: Request, res: Response)=>{
+  const products = [
+    {
+      id: 1,
+      title: "Denim Pants for girls",
+      price: 1200,
+      stock: 1000,
+      category: "Cloth"
+    },
+    {
+      id: 2,
+      title: "T-Shirt for boys",
+      price: 700,
+      stock: 950,
+      category: "Cloth"
+    },
+    {
+      id: 3,
+      title: "IPhone charger",
+      price: 10000,
+      stock: 602,
+      category: "Electronics"
+    },
+    {
+      id: 4,
+      title: "Night beauty cream.",
+      price: 1500,
+      stock: 1201,
+      category: "Beauty Products"
+    }
+  ]
+
+  res.json({
+    success: true,
+    message: "Products retrieved successfully!",
+    data: products
   })
 })
 
