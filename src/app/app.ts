@@ -14,6 +14,21 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
   next();
 }
 
+//Router
+
+const userRouter = express.Router();
+
+app.use('/api/v1/users', userRouter);
+
+userRouter.get('/create-user', (req: Request, res: Response)=>{
+  const user = req.body;
+  res.json({
+    success: true,
+    message: "User created successfully",
+    data: user
+  })
+})
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello my World2!')

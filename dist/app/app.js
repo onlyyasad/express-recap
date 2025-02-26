@@ -13,6 +13,17 @@ const logger = (req, res, next) => {
     console.log(req.url, req.method, req.hostname);
     next();
 };
+//Router
+const userRouter = express_1.default.Router();
+app.use('/api/v1/users', userRouter);
+userRouter.get('/create-user', (req, res) => {
+    const user = req.body;
+    res.json({
+        success: true,
+        message: "User created successfully",
+        data: user
+    });
+});
 app.get('/', (req, res) => {
     res.send('Hello my World2!');
 });
