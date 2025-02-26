@@ -8,8 +8,20 @@ const app = (0, express_1.default)();
 //parsers
 app.use(express_1.default.json());
 app.use(express_1.default.text());
+//middleware
+const logger = (req, res, next) => {
+    console.log(req.url, req.method, req.hostname);
+    next();
+};
 app.get('/', (req, res) => {
-    res.send('Hello my World!');
+    res.send('Hello my World2!');
+});
+app.get('/product/:productId', (req, res) => {
+    console.log(req.params);
+    res.send(`Hello dynamic param ${req.params.productId}`);
+});
+app.get('/protected', logger, (req, res) => {
+    res.send(`Hello from middleware passed route!`);
 });
 app.post('/', (req, res) => {
     console.log(req.body);
