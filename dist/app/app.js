@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,8 +25,10 @@ const logger = (req, res, next) => {
 //Router
 const userRouter = express_1.default.Router();
 const productRouter = express_1.default.Router();
+const adminRouter = express_1.default.Router();
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products/', productRouter);
+app.use('/api/v1/admin/', adminRouter);
 userRouter.post('/create-user', (req, res) => {
     const user = req.body;
     res.json({
@@ -63,6 +74,28 @@ productRouter.get('/all', (req, res) => {
         data: products
     });
 });
+adminRouter.get('/users', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // res.json({
+        //   success: true,
+        //   message: "Admin user retrieved successfully!",
+        //   data: [
+        //     {
+        //       name: "Hafij",
+        //       email: "hafij@email.com"
+        //     },
+        //     {
+        //       name: "Asad",
+        //       email: "asad@email.com"
+        //     }
+        //   ]
+        // })
+        res.send(something);
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 app.get('/', (req, res) => {
     res.send('Hello my World2!');
 });
@@ -76,5 +109,15 @@ app.get('/protected', logger, (req, res) => {
 app.post('/', (req, res) => {
     console.log(req.body);
     res.send(JSON.stringify({ data: req.body }));
+});
+//global error handler
+app.use((error, req, res, next) => {
+    console.log(error);
+    if (error) {
+        res.json({
+            success: false,
+            message: "Something went wrong!"
+        });
+    }
 });
 exports.default = app;

@@ -18,9 +18,11 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
 
 const userRouter = express.Router();
 const productRouter = express.Router();
+const adminRouter = express.Router();
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products/', productRouter);
+app.use('/api/v1/admin/', adminRouter);
 
 userRouter.post('/create-user', (req: Request, res: Response)=>{
   const user = req.body;
@@ -70,6 +72,28 @@ productRouter.get('/all', (req: Request, res: Response)=>{
   })
 })
 
+adminRouter.get('/users', async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    // res.json({
+    //   success: true,
+    //   message: "Admin user retrieved successfully!",
+    //   data: [
+    //     {
+    //       name: "Hafij",
+    //       email: "hafij@email.com"
+    //     },
+    //     {
+    //       name: "Asad",
+    //       email: "asad@email.com"
+    //     }
+    //   ]
+    // })
+    res.send(something)
+  }catch(error){
+    next(error)
+  }
+})
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello my World2!')
@@ -88,6 +112,17 @@ app.get('/protected', logger, (req: Request, res: Response)=>{
 app.post('/', (req: Request, res: Response)=>{
     console.log(req.body);
     res.send(JSON.stringify({data: req.body}))
+})
+
+//global error handler
+app.use((error: any, req: Request, res: Response, next: NextFunction)=>{
+  console.log(error)
+  if(error){
+    res.json({
+      success: false,
+      message: "Something went wrong!"
+    })
+  }
 })
 
 export default app;
