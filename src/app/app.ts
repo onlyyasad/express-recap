@@ -114,11 +114,19 @@ app.post('/', (req: Request, res: Response)=>{
     res.send(JSON.stringify({data: req.body}))
 })
 
+//global not found error: must be bottom of all api route
+
+app.all("*", (req: Request, res: Response)=>{
+  res.status(400).json({
+    status: false,
+    message: "Route is not defined!"
+  })
+})
 //global error handler
 app.use((error: any, req: Request, res: Response, next: NextFunction)=>{
   console.log(error)
   if(error){
-    res.json({
+    res.status(500).json({
       success: false,
       message: "Something went wrong!"
     })
