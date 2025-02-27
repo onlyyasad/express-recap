@@ -19,10 +19,33 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
 const userRouter = express.Router();
 const productRouter = express.Router();
 const adminRouter = express.Router();
+const cartRouter = express.Router();
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products/', productRouter);
 app.use('/api/v1/admin/', adminRouter);
+app.use('/api/v1/cart/', cartRouter);
+
+cartRouter.get("/all", (req: Request, res: Response)=>{
+  res.status(200).json({
+    success: true,
+    message: "Cart data retrieved successfully.",
+    data: [
+      {
+        id: 1,
+        name: "Shoe",
+        price: 20,
+        quantity: 1
+      },
+      {
+        id: 2,
+        name: "Bag",
+        price: 2000,
+        quantity: 2
+      }
+    ]
+  })
+})
 
 userRouter.post('/create-user', (req: Request, res: Response)=>{
   const user = req.body;
