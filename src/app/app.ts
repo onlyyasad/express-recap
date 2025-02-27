@@ -74,21 +74,20 @@ productRouter.get('/all', (req: Request, res: Response)=>{
 
 adminRouter.get('/users', async(req: Request, res: Response, next: NextFunction)=>{
   try{
-    // res.json({
-    //   success: true,
-    //   message: "Admin user retrieved successfully!",
-    //   data: [
-    //     {
-    //       name: "Hafij",
-    //       email: "hafij@email.com"
-    //     },
-    //     {
-    //       name: "Asad",
-    //       email: "asad@email.com"
-    //     }
-    //   ]
-    // })
-    res.send(something)
+    res.status(200).json({
+      success: true,
+      message: "Admin user retrieved successfully!",
+      data: [
+        {
+          name: "Hafij",
+          email: "hafij@email.com"
+        },
+        {
+          name: "Asad",
+          email: "asad@email.com"
+        }
+      ]
+    })
   }catch(error){
     next(error)
   }
